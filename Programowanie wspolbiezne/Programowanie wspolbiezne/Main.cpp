@@ -11,7 +11,7 @@
 
 
 using namespace std; 
-int ilosc_watkow;
+int ilosc_watkow
 
 float randomFloat(float min, float max) {
 	static default_random_engine e{};
