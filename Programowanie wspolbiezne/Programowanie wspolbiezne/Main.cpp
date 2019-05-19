@@ -10,7 +10,7 @@
 #include <conio.h>
 
 
-using namespace std; //u¿y³em tego dla w³asnej wygody ale wiem, ¿e nie powinienem
+using namespace std; 
 int ilosc_watkow;
 
 float randomFloat(float min, float max) {
@@ -46,7 +46,6 @@ std::vector<std::vector<float>> createMatrix(std::array<int, 2> shape)
 {
 
 	std::vector<float> mat;
-	//#pragma omp for
 	for (int j = 0; j < shape[1]; j++)
 	{
 		mat.push_back(0);
@@ -89,36 +88,13 @@ std::vector<std::vector<float>> C;
 void multiply_t(std::vector<std::vector<float>> &A, std::vector<std::vector<float>> &B, std::vector<std::vector<float>> &C, int nr_watk, int m, int p, int n)
 {
 
-	/*maceirze sa symetryczne najczesciej!*/
-	/*jesli przyjmiemy ze macierze sa syumetryczne czyli w kazdej bedzie zawsze tyle samo elementow*/
-
-
-
 	const int il_elementow = (m * p);
 	const int il_operacji = il_elementow / ilosc_watkow;
 	const int resz_operacji = il_elementow % ilosc_watkow;
 
 	int start_op, end_op,z,y;
-	// omp pharrel for schedulle, dynamic,static, guided
-	//dynamiczny wlasny, musi byc sekcja krytyczna
-	//sekcja krytyczna minimalna
-	//synchornizacja watkow
-	//semafor SO! zamiast tego l
-	//mutex lock
 
-	//15*4 + 8*5
-		//100/23 = 4 r 8
-
-	//mnozenie macierzy za pomoca omp
-	//na poziomie watkow zaimplementowac omp
-	//49 i 9 
-	//for (z = resz_operacji; z != 0; z--) {
-	//	y = ilosc_watkow / resz_operacji;
-	//}
-
-	
-
-	if (nr_watk < il_elementow % ilosc_watkow) {
+	if (nr_watk == 0) {
 		start_op = il_operacji * nr_watk;
 		end_op = (il_operacji * (nr_watk + 1)) + resz_operacji;
 	}
@@ -182,8 +158,7 @@ int main() {
 	cout << "Ile watkow chcesz utworzyc?" << endl;
 	cin >> ilosc_watkow;
 
-	//start = clock();
-	/*std::thread threads[2];*/
+	
 	cout << "1 macierz*************************************************************************************************" << endl;
 	thread thread1(randomMatrix1, wspolrzedne1, min_w, maks_w);
 	thread thread2(randomMatrix2, wspolrzedne2, min_w, maks_w);
@@ -201,7 +176,7 @@ int main() {
 	start = clock();
 	for (int i = 0; i < ilosc_watkow; i++) {
 
-		//threads[i] = thread(multiply_t, ref(random1), ref(random2), ref(C), i, m, p, n);
+		
 		threads.push_back(thread(multiply_t, ref(random1), ref(random2), ref(C), i, m, p, n));
 	}
 	for (int i = 0; i < ilosc_watkow; ++i) {

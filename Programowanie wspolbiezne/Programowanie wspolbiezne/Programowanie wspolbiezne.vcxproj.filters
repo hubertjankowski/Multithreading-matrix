@@ -19,4 +19,9 @@
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Comments.txt">
+      <Filter>Pliki źródłowe</Filter>
+    </Text>
+  </ItemGroup>
 </Project>
